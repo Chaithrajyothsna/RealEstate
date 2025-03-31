@@ -25,6 +25,7 @@ const Header = ({ user }) => {
           <Nav className="ms-auto fw-medium fs-5">
             {/* Buy Dropdown */}
             <NavDropdown title={<span className="text-light">Buy</span>} id="buy-dropdown">
+    
               <NavDropdown.Item onClick={() => handleNavigate("House")}>House</NavDropdown.Item>
               <NavDropdown.Item onClick={() => handleNavigate("Apartment")}>Apartment</NavDropdown.Item>
               <NavDropdown.Item onClick={() => handleNavigate("Land")}>Land</NavDropdown.Item>
@@ -79,6 +80,7 @@ const Header = ({ user }) => {
                   <FaUserPlus className="me-2" /> Signup
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login" className="text-light d-flex align-items-center">
+              //dswdw
                   <FaSignInAlt className="me-2" /> Login
                 </Nav.Link>
               </>
