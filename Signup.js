@@ -1,3 +1,4 @@
+// Signup.js
 import React, { useState } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -34,7 +35,7 @@ const Signup = ({ setUser }) => {
     const newUser = {
       name: formData.name,
       email: formData.email,
-      profilePic: "/images/default-avatar.png", // Placeholder profile image
+      profilePic: "/images/default.jpg", // Placeholder profile image
     };
 
     // Save user data to localStorage
