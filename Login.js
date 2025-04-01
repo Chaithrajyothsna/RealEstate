@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ const Login = ({ setUser }) => {
     // Simulate authentication (Replace with actual backend authentication)
     const loggedInUser = {
       name: formData.username,
-      profilePic: "/images/John2.png", // Placeholder profile image
+      profilePic: "/images/default.jpg", // Placeholder profile image
     };
 
     // Save user data to localStorage
