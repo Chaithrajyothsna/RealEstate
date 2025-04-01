@@ -1,3 +1,4 @@
+// Dashboard.js
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Card, Badge } from "react-bootstrap";
 import { House, BarChart, Building2, Calendar, LogOut, Plus, ArrowUp } from "lucide-react";
@@ -202,34 +203,27 @@ const Dashboard = () => {
               <div key={appointment.id} className="appointment-card">
                 <Row className="g-0">
                   <Col xs={4} md={3} lg={2}>
-                    <img 
-                      src={appointment.img} 
+                    <img
+                      src={appointment.img}
                       alt={appointment.name}
                       className="appointment-image"
                     />
                   </Col>
                   <Col xs={8} md={9} lg={10}>
-                    <div className="p-3">
-                      <div className="d-flex justify-content-between">
+                    <div className="appointment-details">
+                      <h6 className="mb-1">{appointment.name}</h6>
+                      <p className="text-secondary small mb-2">
+                        {appointment.location}
+                      </p>
+                      <div className="d-flex justify-content-between align-items-center">
                         <div>
-                          <h6 className="mb-1">{appointment.name}</h6>
-                          <p className="text-secondary small mb-1">
-                            <i className="bi bi-geo-alt me-1"></i>
-                            {appointment.location}
-                          </p>
-                          <p className="small mb-0">
-                            <i className="bi bi-calendar me-1"></i>
-                            {appointment.date}, {appointment.time}
-                          </p>
+                          <Calendar size={16} className="me-1" />
+                          <span>{appointment.date}, {appointment.time}</span>
                         </div>
-                        <div className="d-flex flex-column align-items-end">
-                          <Badge className="upcoming-badge mb-2">
-                            <ArrowUp size={12} className="me-1" />
+                        <div>
+                          <Badge bg={appointment.status === 'Upcoming' ? 'success' : 'secondary'}>
                             {appointment.status}
                           </Badge>
-                          <button className="cancel-btn">
-                            Cancel
-                          </button>
                         </div>
                       </div>
                     </div>
