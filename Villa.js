@@ -44,7 +44,7 @@ const SecondPage = () => {
         <Col md={8}>
           <h4 className="fw-bold">₹2.00 Cr</h4>
           <p>EMI - ₹75,000 | Home Loan Available</p>
-          <p>1898 Sq-ft 6 BHK Flat For Sale in Jubliee Hills, Hyderabad</p>
+          <p>1988 Sq-ft 6 BHK Villa For Sale in Jubliee Hills, Hyderabad</p>
           
           {/* Slideshow for Images */}
           <Carousel activeIndex={index} onSelect={handleSelect} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
