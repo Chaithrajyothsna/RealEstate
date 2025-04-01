@@ -19,8 +19,14 @@ const Login = ({ setUser }) => {
       profilePic: "/images/John2.png", // Placeholder profile image
     };
 
-    setUser(loggedInUser); // Set user state
-    navigate("/"); // Redirect to homepage
+    // Save user data to localStorage
+    localStorage.setItem("user", JSON.stringify(loggedInUser));
+
+    // Set user state
+    setUser(loggedInUser);
+
+    // Redirect to homepage
+    navigate("/");
   };
 
   return (
@@ -30,16 +36,32 @@ const Login = ({ setUser }) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Username:</Form.Label>
-            <Form.Control type="text" name="username" value={formData.username} onChange={handleChange} required />
+            <Form.Control
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Password:</Form.Label>
-            <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
+            <Form.Control
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
           </Form.Group>
 
           <div className="d-flex justify-content-between mb-3">
-            <span className="text-primary" style={{ cursor: "pointer" }} onClick={() => navigate("/forgot-password")}>
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/forgot-password")}
+            >
               Forgot Password?
             </span>
           </div>
