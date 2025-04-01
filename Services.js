@@ -21,6 +21,9 @@ const Services = () => {
       navigate("/Apartment");  // Navigate to the Flat details page
     }
   };
+  const handlePropertyListingRedirect = () => {
+    navigate("/propertylisting"); // Redirects to PropertyListing.js
+  };
 
   return (
     <Container className="my-4">
@@ -78,6 +81,63 @@ const Services = () => {
       )}
 
       {/* Other Sections (Property Selling, Find Agents, etc.) */}
+      {(serviceType === "sell" || !serviceType) && (
+        <>
+          <h3 className="text-center fw-bold mt-5 mb-4">
+            🏠 <span className="text-dark">Property Selling</span>
+          </h3>
+          <Row className="justify-content-center">
+            {[
+              { title: "List Your Property", description: "Submit your property details, upload images, and set a price.", btnText: "Get Started", btnColor: "warning" },
+              { title: "Performance Tracking", description: "Track views, inquiries, and offers for your listed properties.", btnText: "Track Now", btnColor: "warning" },
+            ].map((service, index) => (
+              <Col md={5} key={index} className="mb-3">
+                <Card className="p-3 border rounded">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">{service.title}</Card.Title>
+                    <Card.Text>{service.description}</Card.Text>
+                    <Button
+                      variant={service.btnColor}
+                      onClick={index === 0 ? handlePropertyListingRedirect : () => navigate("/dashboard")}
+                    >
+                      {service.btnText}
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
+
+      {/* Find Agents Section */}
+      {(serviceType === "agents" || !serviceType) && (
+        <>
+          <h3 className="text-center fw-bold mt-5 mb-4">
+            💼 <span className="text-dark">Find Agents</span>
+          </h3>
+          <Row className="justify-content-center">
+            {[
+              { name: "John Doe", description: "Expert in residential properties with 10+ years of experience." },
+              { name: "Jane Smith", description: "Specialist in luxury villas and commercial properties." },
+              { name: "Alex Johnson", description: "Commercial property expert with a high success rate." },
+            ].map((agent, index) => (
+              <Col md={4} key={index} className="mb-3">
+                <Card className="p-3 border rounded">
+                  <Card.Body>
+                    <Card.Title className="fw-bold">{agent.name}</Card.Title>
+                    <Card.Text>{agent.description}</Card.Text>
+                    <Button variant="success" onClick={() => handleContactClick(agent.name)}>
+                      Contact
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
+
 
     </Container>
   );
