@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Form, Button, Container, Card } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ setUser }) => {
   const [formData, setFormData] = useState({
-    username: "",
-    contactNo: "",
+    name: "",
+    email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
+  const [error, setError] = useState(""); // To store error messages
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,79 +19,98 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+    // Basic form validation
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
+      setError("Please fill in all fields.");
       return;
     }
 
-    alert(`✅ Account Created Successfully!\n\nUsername: ${formData.username}\nContact No: ${formData.contactNo}`);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    // Simulate a successful signup (you should integrate a backend API here)
+    const newUser = {
+      name: formData.name,
+      email: formData.email,
+      profilePic: "/images/default-avatar.png", // Placeholder profile image
+    };
+
+    // Save user data to localStorage
+    localStorage.setItem("user", JSON.stringify(newUser));
+
+    // Set user state to reflect the logged-in user
+    setUser(newUser);
+
+    // Navigate to homepage after successful signup
+    navigate("/");
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
-      <div className="p-5 shadow rounded-3" style={{ width: "500px", background: "#f9f9f9" }}>
-        <h2 className="text-center mb-4">Create an Account</h2>
-        <p className="text-center text-muted">Join Haven Homes to find your perfect property</p>
+      <Card className="p-4 shadow" style={{ width: "400px", background: "#f8f9fa" }}>
+        <h3 className="text-center fw-bold">Create Your Account</h3>
+
+        {/* Display error message if any */}
+        {error && <div className="alert alert-danger">{error}</div>}
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Username</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Name:</Form.Label>
             <Form.Control
               type="text"
-              name="username"
-              placeholder="Enter username"
-              value={formData.username}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="contactNo">
-            <Form.Label>Contact No</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Email:</Form.Label>
             <Form.Control
-              type="text"
-              name="contactNo"
-              placeholder="Enter contact number"
-              value={formData.contactNo}
+              type="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Create Password</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Password:</Form.Label>
             <Form.Control
               type="password"
               name="password"
-              placeholder="Enter password"
               value={formData.password}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Confirm Password:</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"
-              placeholder="Confirm password"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <div className="d-grid">
-            <Button variant="primary" type="submit">Sign Up</Button>
-          </div>
+          <Button variant="primary" type="submit" className="w-100">
+            Signup
+          </Button>
         </Form>
 
         <div className="text-center mt-3">
-          <span className="text-muted">Already have an Account? </span>
-          <Link to="/login" className="text-primary">Login</Link>
+          <small>
+            Already have an account? <Link to="/login" className="text-primary">Login</Link>
+          </small>
         </div>
-      </div>
+      </Card>
     </Container>
   );
 };
