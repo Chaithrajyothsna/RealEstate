@@ -2,29 +2,25 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
-import logo from "./images/logo1.png"; // Adjust the path to your logo image
 
-const Header = ({ user }) => {
+const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
 
-  // Function to navigate to Drop.js with the selected property category
   const handleNavigate = (category) => {
     navigate(`/drop/${category.toLowerCase()}`);
   };
 
   const handleLogout = () => {
-    // Remove user data from localStorage
     localStorage.removeItem("user");
-
-    // Set user state to null (logout the user)
-    navigate("/login");
+    setUser(null);
+    navigate("/");
   };
 
   return (
     <Navbar expand="lg" bg="info" variant="dark" className="px-3">
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img src={logo} alt="Logo" width="50" height="50" className="rounded-circle me-2" />
+          <img src="/images/logo1.png" alt="Logo" width="50" height="50" className="rounded-circle me-2" />
           <span className="fw-bold fs-3 text-light">Haven Homes</span>
         </Navbar.Brand>
 
@@ -72,8 +68,8 @@ const Header = ({ user }) => {
               <NavDropdown
                 title={
                   <span className="d-flex align-items-center text-light">
-                    <img src={user.profilePic || logo} alt="User" width="40" height="40" className="rounded-circle me-2" />
-                    {user.name}
+                    <img src={user.profilePic || "/images/default.jpg"} alt="User" width="40" height="40" className="rounded-circle me-2" />
+                    {user.name.replace(/^Us\s*/, '')}
                   </span>
                 }
                 id="user-dropdown"
