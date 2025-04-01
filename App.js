@@ -24,6 +24,13 @@ import EMICalculator from "./EMICalculator";
 
 const App = () => {
   const [user, setUser] = useState(null); // State to manage user login
+// Check localStorage for user data on initial load
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser)); // Set user state with saved data
+    }
+  }, []);
 
   return (
     <Router>
