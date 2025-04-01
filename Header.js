@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
-import logo from "./assets/logo.png";
+import logo from "./images/logo1.png"; // Adjust the path to your logo image
 
 const Header = ({ user }) => {
   const navigate = useNavigate();
@@ -10,6 +10,14 @@ const Header = ({ user }) => {
   // Function to navigate to Drop.js with the selected property category
   const handleNavigate = (category) => {
     navigate(`/drop/${category.toLowerCase()}`);
+  };
+
+  const handleLogout = () => {
+    // Remove user data from localStorage
+    localStorage.removeItem("user");
+
+    // Set user state to null (logout the user)
+    navigate("/login");
   };
 
   return (
@@ -71,7 +79,7 @@ const Header = ({ user }) => {
                 id="user-dropdown"
               >
                 <NavDropdown.Item onClick={() => navigate("/dashboard")}>Dashboard</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => navigate("/")}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
             ) : (
               <>
