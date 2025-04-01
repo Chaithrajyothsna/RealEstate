@@ -11,8 +11,15 @@ const Services = () => {
     navigate(`/contact?agent=${encodeURIComponent(agentName)}`);
   };
 
-  const handlePropertyListingRedirect = () => {
-    navigate("/propertylisting"); // Redirects to PropertyListing.js
+  // Handle the "View More" click event to navigate to the respective page
+  const handleViewMoreClick = (propertyType) => {
+    if (propertyType === "Land") {
+      navigate("/Lands");  // Navigate to the Land details page
+    } else if (propertyType === "villa") {
+      navigate("/Villa");  // Navigate to the Villa details page
+    } else if (propertyType === "apartment") {
+      navigate("/Apartment");  // Navigate to the Flat details page
+    }
   };
 
   return (
@@ -26,11 +33,27 @@ const Services = () => {
             🏡 <span className="text-dark">Buy Property</span>
           </h3>
           <Row className="justify-content-center">
-            {[
-              { title: "2 BHK Flat", price: "₹1.70 Cr", size: "1568 sqft", location: "Banjara Hills, Hyderabad" },
-              { title: "Land", price: "₹1.1 Cr", size: "1280 yards", location: "Hasanparthy, Warangal" },
-              { title: "6 BHK Villa", price: "₹2.00 Cr", size: "1898 sqft", location: "Jubilee Hills, Hyderabad" },
-            ].map((property, index) => (
+            {[{
+              title: "2 BHK Flat",
+              price: "₹1.70 Cr",
+              size: "1568 sqft",
+              location: "Banjara Hills, Hyderabad",
+              type: "apartment",  // Add property type for easy reference
+            },
+            {
+              title: "Land",
+              price: "₹1.1 Cr",
+              size: "1280 yards",
+              location: "Hasanparthy, Warangal",
+              type: "Land",  // Add property type for easy reference
+            },
+            {
+              title: "6 BHK Villa",
+              price: "₹2.00 Cr",
+              size: "1898 sqft",
+              location: "Jubilee Hills, Hyderabad",
+              type: "villa",  // Add property type for easy reference
+            }].map((property, index) => (
               <Col md={4} key={index} className="mb-3">
                 <Card className="p-3 border rounded">
                   <Card.Body>
@@ -40,36 +63,11 @@ const Services = () => {
                       <br />
                       {property.location}
                     </Card.Text>
-                    <Button variant="primary">View More</Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </>
-      )}
-
-      {/* Property Selling Section */}
-      {(serviceType === "sell" || !serviceType) && (
-        <>
-          <h3 className="text-center fw-bold mt-5 mb-4">
-            🏠 <span className="text-dark">Property Selling</span>
-          </h3>
-          <Row className="justify-content-center">
-            {[
-              { title: "List Your Property", description: "Submit your property details, upload images, and set a price.", btnText: "Get Started", btnColor: "warning" },
-              { title: "Performance Tracking", description: "Track views, inquiries, and offers for your listed properties.", btnText: "Track Now", btnColor: "warning" },
-            ].map((service, index) => (
-              <Col md={5} key={index} className="mb-3">
-                <Card className="p-3 border rounded">
-                  <Card.Body>
-                    <Card.Title className="fw-bold">{service.title}</Card.Title>
-                    <Card.Text>{service.description}</Card.Text>
                     <Button
-                      variant={service.btnColor}
-                      onClick={index === 0 ? handlePropertyListingRedirect : () => navigate("/dashboard")}
+                      variant="primary"
+                      onClick={() => handleViewMoreClick(property.type)} // Navigate based on property type
                     >
-                      {service.btnText}
+                      View More
                     </Button>
                   </Card.Body>
                 </Card>
@@ -79,33 +77,8 @@ const Services = () => {
         </>
       )}
 
-      {/* Find Agents Section */}
-      {(serviceType === "agents" || !serviceType) && (
-        <>
-          <h3 className="text-center fw-bold mt-5 mb-4">
-            💼 <span className="text-dark">Find Agents</span>
-          </h3>
-          <Row className="justify-content-center">
-            {[
-              { name: "John Doe", description: "Expert in residential properties with 10+ years of experience." },
-              { name: "Jane Smith", description: "Specialist in luxury villas and commercial properties." },
-              { name: "Alex Johnson", description: "Commercial property expert with a high success rate." },
-            ].map((agent, index) => (
-              <Col md={4} key={index} className="mb-3">
-                <Card className="p-3 border rounded">
-                  <Card.Body>
-                    <Card.Title className="fw-bold">{agent.name}</Card.Title>
-                    <Card.Text>{agent.description}</Card.Text>
-                    <Button variant="success" onClick={() => handleContactClick(agent.name)}>
-                      Contact
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </>
-      )}
+      {/* Other Sections (Property Selling, Find Agents, etc.) */}
+
     </Container>
   );
 };
