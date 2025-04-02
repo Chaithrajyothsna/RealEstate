@@ -35,7 +35,7 @@ const Signup = ({ setUser }) => {
     const newUser = {
       name: formData.name,
       email: formData.email,
-      profilePic: "/images/default.jpg", // Placeholder profile image
+      profilePic: "/images/user.png", // Placeholder profile image
     };
 
     // Save user data to localStorage
