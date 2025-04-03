@@ -24,7 +24,8 @@ import VisitDetails from "./VisitDetails";
 import EMICalculator from "./EMICalculator";
 
 // Define the Apartments component (if it doesn't already exist)
-import Apartments from "./Apartments"; // Ensure this file exists
+import Apartment from "./Apartment"; // Ensure this file exists
+import { EqualApproximately } from "lucide-react";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -46,7 +47,7 @@ const App = () => {
           <Route path="/Signup" element={<Signup setUser={setUser} />} />
           <Route path="/SecondPage" element={<SecondPage />} />
           <Route path="/Services" element={<Services />} />
-          <Route path="/apartment" element={<Apartments />} /> {/* Add Apartments Route */}
+          <Route path="/apartment" element={<Apartment />} /> {/* Add Apartments Route */}
           <Route path="/Lands" element={<Lands />} />
           <Route path="/villa" element={<Villa />} />
           <Route path="/Login" element={<Login setUser={setUser} />} />
