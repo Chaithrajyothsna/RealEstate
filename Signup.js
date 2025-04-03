@@ -1,17 +1,17 @@
-// Signup.js
 import React, { useState } from "react";
-import { Form, Button, Container, Card } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-const Signup = ({ setUser }) => {
+const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    username: "",
+    contactNo: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
-  const [error, setError] = useState(""); // To store error messages
-  const navigate = useNavigate(); // Hook for navigation
+
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,98 +20,114 @@ const Signup = ({ setUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic form validation
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError("Please fill in all fields.");
+    // Validate username (at least 3 characters)
+    if (formData.username.length < 3) {
+      setError("Username must be at least 3 characters long.");
       return;
     }
 
+    // Validate contact number (only numbers, at least 10 digits)
+    if (!/^\d{10,}$/.test(formData.contactNo)) {
+      setError("Contact number must be at least 10 digits and contain only numbers.");
+      return;
+    }
+
+    // Validate password (at least 6 characters)
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    // Validate confirm password matches password
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+      setError("Passwords do not match!");
       return;
     }
 
-    // Simulate a successful signup (you should integrate a backend API here)
+    // If all validations pass
+    setError(null);
+    alert(`✅ Account Created Successfully!\n\nUsername: ${formData.username}\nContact No: ${formData.contactNo}`);
+
+    // Save user data (for demonstration purposes, store in localStorage)
     const newUser = {
-      name: formData.name,
-      email: formData.email,
-      profilePic: "/images/user.png", // Placeholder profile image
+      username: formData.username,
+      contactNo: formData.contactNo,
+      profilePic: "/images/user.png" // Placeholder image
     };
 
-    // Save user data to localStorage
     localStorage.setItem("user", JSON.stringify(newUser));
 
-    // Set user state to reflect the logged-in user
-    setUser(newUser);
-
-    // Navigate to homepage after successful signup
-    navigate("/");
+    // Redirect to login page
+    navigate("/login");
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Card className="p-4 shadow" style={{ width: "400px", background: "#f8f9fa" }}>
-        <h3 className="text-center fw-bold">Create Your Account</h3>
+      <div className="p-5 shadow rounded-3" style={{ width: "500px", background: "#f9f9f9" }}>
+        <h2 className="text-center mb-4">Create an Account</h2>
+        <p className="text-center text-muted">Join Haven Homes to find your perfect property</p>
 
-        {/* Display error message if any */}
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <Alert variant="danger">{error}</Alert>}
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Name:</Form.Label>
+          <Form.Group className="mb-3" controlId="username">
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              placeholder="Enter username"
+              value={formData.username}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Email:</Form.Label>
+          <Form.Group className="mb-3" controlId="contactNo">
+            <Form.Label>Contact No</Form.Label>
             <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              name="contactNo"
+              placeholder="Enter contact number"
+              value={formData.contactNo}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Password:</Form.Label>
+          <Form.Group className="mb-3" controlId="password">
+            <Form.Label>Create Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
+              placeholder="Enter password"
               value={formData.password}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Confirm Password:</Form.Label>
+          <Form.Group className="mb-3" controlId="confirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"
+              placeholder="Confirm password"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" className="w-100">
-            Signup
-          </Button>
+          <div className="d-grid">
+            <Button variant="primary" type="submit">Sign Up</Button>
+          </div>
         </Form>
 
         <div className="text-center mt-3">
-          <small>
-            Already have an account? <Link to="/login" className="text-primary">Login</Link>
-          </small>
+          <span className="text-muted">Already have an account? </span>
+          <Link to="/login" className="text-primary">Login</Link>
         </div>
-      </Card>
+      </div>
     </Container>
   );
 };
