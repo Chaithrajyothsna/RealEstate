@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, Image, Carousel } from "react-bootstrap";
 import { FaBed, FaBath, FaCouch } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Apartments = () => {
+const Apartment = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const property = location.state;
   const images = [
-    "/images/2ndImage1stPage.png",
-    "/images/2ndImage2ndImage.png",
-    "/images/land1.jpg",
-    "/images/drop8.png",
-    "/images/land2.jpg"
+    "/images/drop4.png",
+    "/images/a1.png",
+    "/images/a2.jpg",
+    "/images/a4.png",
+    "/images/a5.png",
+    "/images/a3.png"
   ];
 
   const [index, setIndex] = useState(0);
@@ -35,14 +40,33 @@ const Apartments = () => {
     }
   };
 
+  const handleEMIClick = () => {
+    navigate("/emicalculator");
+  };
+
+  const handleBookVisitClick = () => {
+    navigate("/visitform");
+  };
+
+  const handleGetCallClick = () => {
+    navigate("/calldetails", { 
+      state: { 
+        callerName: "Agent John Doe", 
+        callDate: "2025-04-01", 
+        callTime: "3:00 PM", 
+        confirmed: true 
+      } 
+    });
+  };
+
   return (
     <Container className="my-4" onKeyDown={handleKeyDown} tabIndex={0}>
       <Row>
         <Col md={8}>
-          <h4 className="fw-bold">₹1.10 Cr</h4>
+          <h4 className="fw-bold">₹1.70 Cr</h4>
           <p><a href="#" className="text-primary">EMI - ₹25,000</a> | <a href="#" className="text-primary">Loan Available</a></p>
-          <p><a href="#" className="text-primary">1280 Sq-ft</a></p>
-          <p><a href="#" className="text-primary">Sale in Hasanparthy, Warangal</a></p>
+          <p><a href="#" className="text-primary">1568 Sq-ft</a></p>
+          <p><a href="#" className="text-primary">Sale in Banjara Hills </a></p>
           
           {/* Slideshow for Images */}
           <Carousel activeIndex={index} onSelect={handleSelect} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
@@ -65,13 +89,13 @@ const Apartments = () => {
         </Col>
       </Row>
       
-      <Row className="mt-4 text-center">
-        <Col><Button variant="danger" className="px-4">Book A Visit</Button></Col>
-        <Col><Button variant="danger" className="px-4">EMI</Button></Col>
-        <Col><Button variant="danger" className="px-4">Get A Call</Button></Col>
-      </Row>
+    <Row className="mt-4 text-center">
+      <Col><Button variant="danger" className="px-4" onClick={handleBookVisitClick}>Book A Visit</Button></Col>
+      <Col><Button variant="danger" className="px-4" onClick={handleEMIClick}>EMI</Button></Col>
+     <Col><Button variant="danger" className="px-4" onClick={handleGetCallClick}>Get A Call</Button></Col>
+    </Row>
     </Container>
   );
 };
 
-export default Apartments;
+export default Apartment;
