@@ -19,7 +19,7 @@ const Services = () => {
       navigate("/Villa");  // Navigate to the Villa details page
     } else if (propertyType === "apartment") {
       navigate("/Apartment");  // Navigate to the Flat details page
-    }
+    } 
   };
   const handlePropertyListingRedirect = () => {
     navigate("/propertylisting"); // Redirects to PropertyListing.js
