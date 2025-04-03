@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, Image, Carousel } from "react-bootstrap";
 import { FaBed, FaBath, FaCouch } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Lands = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const property = location.state;
   const images = [
     "/images/2ndImage1stPage.png",
     "/images/2ndImage2ndImage.png",
@@ -33,6 +37,25 @@ const Lands = () => {
     } else if (event.key === "ArrowLeft") {
       setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
     }
+  };
+
+  const handleEMIClick = () => {
+    navigate("/emicalculator");
+  };
+
+  const handleBookVisitClick = () => {
+    navigate("/visitform");
+  };
+
+  const handleGetCallClick = () => {
+    navigate("/calldetails", { 
+      state: { 
+        callerName: "Alex", 
+        callDate: "2025-04-05", 
+        callTime: "2:00 PM", 
+        confirmed: true 
+      } 
+    });
   };
 
   return (
@@ -66,9 +89,9 @@ const Lands = () => {
       </Row>
       
       <Row className="mt-4 text-center">
-        <Col><Button variant="danger" className="px-4">Book A Visit</Button></Col>
-        <Col><Button variant="danger" className="px-4">EMI</Button></Col>
-        <Col><Button variant="danger" className="px-4">Get A Call</Button></Col>
+        <Col><Button variant="danger" className="px-4" onClick={handleBookVisitClick}>Book A Visit</Button></Col>
+        <Col><Button variant="danger" className="px-4" onClick={handleEMIClick}>EMI</Button></Col>
+        <Col><Button variant="danger" className="px-4" onClick={handleGetCallClick}>Get A Call</Button></Col>
       </Row>
     </Container>
   );
