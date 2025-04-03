@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, Image, Carousel } from "react-bootstrap";
 import { FaBed, FaBath, FaCouch } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SecondPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const property = location.state;
   const images = [
     "/images/3rdImage1stPage.png",
     "/images/vliving.jpg",
@@ -38,13 +42,32 @@ const SecondPage = () => {
     }
   };
 
+  const handleEMIClick = () => {
+    navigate("/emicalculator");
+  };
+
+  const handleBookVisitClick = () => {
+    navigate("/visitform");
+  };
+
+  const handleGetCallClick = () => {
+    navigate("/calldetails", { 
+      state: { 
+        callerName: "Agent John Doe", 
+        callDate: "2025-04-01", 
+        callTime: "3:00 PM", 
+        confirmed: true 
+      } 
+    });
+  };
+
   return (
     <Container className="my-4" onKeyDown={handleKeyDown} tabIndex={0}>
       <Row>
         <Col md={8}>
           <h4 className="fw-bold">₹2.00 Cr</h4>
           <p>EMI - ₹75,000 | Home Loan Available</p>
-          <p>1988 Sq-ft 6 BHK Villa For Sale in Jubliee Hills, Hyderabad</p>
+          <p>1898 Sq-ft 6 BHK Flat For Sale in Jubliee Hills, Hyderabad</p>
           
           {/* Slideshow for Images */}
           <Carousel activeIndex={index} onSelect={handleSelect} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
@@ -74,10 +97,10 @@ const SecondPage = () => {
       </Row>
       
       <Row className="mt-4 text-center">
-        <Col><Button variant="danger" className="px-4">Book A Visit</Button></Col>
-        <Col><Button variant="danger" className="px-4">EMI</Button></Col>
-        <Col><Button variant="danger" className="px-4">Get A Call</Button></Col>
-      </Row>
+            <Col><Button variant="danger" className="px-4" onClick={handleBookVisitClick}>Book A Visit</Button></Col>
+            <Col><Button variant="danger" className="px-4" onClick={handleEMIClick}>EMI</Button></Col>
+           <Col><Button variant="danger" className="px-4" onClick={handleGetCallClick}>Get A Call</Button></Col>
+          </Row>
     </Container>
   );
 };
