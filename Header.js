@@ -20,7 +20,13 @@ const Header = ({ user, setUser }) => {
     <Navbar expand="lg" bg="info" variant="dark" className="px-3">
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img src="/images/logo1.png" alt="Logo" width="50" height="50" className="rounded-circle me-2" />
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            width="50"
+            height="50"
+            className="rounded-circle me-2"
+          />
           <span className="fw-bold fs-3 text-light">Haven Homes</span>
         </Navbar.Brand>
 
@@ -43,15 +49,16 @@ const Header = ({ user, setUser }) => {
               <NavDropdown.Item onClick={() => handleNavigate("Villa")}>Villa</NavDropdown.Item>
             </NavDropdown>
 
-            {/* Sell Dropdown */}
-            <NavDropdown title={<span className="text-light">Sell</span>} id="sell-dropdown">
-              <NavDropdown.Item onClick={() => handleNavigate("House")}>House</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleNavigate("Apartment")}>Apartment</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleNavigate("Land")}>Land</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => handleNavigate("Villa")}>Villa</NavDropdown.Item>
-            </NavDropdown>
+            {/* Sell Link */}
+            <Nav.Link
+              onClick={() => navigate("/PropertyListing")}
+              className="text-light"
+              style={{ cursor: "pointer" }}
+            >
+              Sell
+            </Nav.Link>
 
-            {/* Other Navigation Links */}
+            {/* Other Links */}
             <Nav.Link onClick={() => navigate("/homeloan")} className="text-light" style={{ cursor: "pointer" }}>
               Loan
             </Nav.Link>
@@ -59,17 +66,28 @@ const Header = ({ user, setUser }) => {
             <Nav.Link onClick={() => navigate("/HelpPage")} className="text-light" style={{ cursor: "pointer" }}>
               Help
             </Nav.Link>
-            <Nav.Link onClick={() => navigate("/", { state: { scrollToAboutUs: true } })} className="text-light" style={{ cursor: "pointer" }}>
+
+            <Nav.Link
+              onClick={() => navigate("/", { state: { scrollToAboutUs: true } })}
+              className="text-light"
+              style={{ cursor: "pointer" }}
+            >
               About Us
             </Nav.Link>
 
-            {/* User Profile or Signup/Login */}
+            {/* User Section */}
             {user ? (
               <NavDropdown
                 title={
                   <span className="d-flex align-items-center text-light">
-                    <img src={user.profilePic || "/images/default.jpg"} alt="User" width="40" height="40" className="rounded-circle me-2" />
-                    {user.name.replace(/^Us\s*/, '')}
+                    <img
+                      src={user.profilePic || "/images/default.jpg"}
+                      alt="User"
+                      width="40"
+                      height="40"
+                      className="rounded-circle me-2"
+                    />
+                    {user?.name ? user.name.replace(/^Us\s*/, "") : "User"}
                   </span>
                 }
                 id="user-dropdown"
@@ -79,7 +97,11 @@ const Header = ({ user, setUser }) => {
               </NavDropdown>
             ) : (
               <>
-                <Nav.Link className="ms-3 text-light d-flex align-items-center" onClick={() => navigate("/signup")} style={{ cursor: "pointer" }}>
+                <Nav.Link
+                  className="ms-3 text-light d-flex align-items-center"
+                  onClick={() => navigate("/signup")}
+                  style={{ cursor: "pointer" }}
+                >
                   <FaUserPlus className="me-2" /> Signup
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login" className="text-light d-flex align-items-center">
