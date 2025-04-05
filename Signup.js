@@ -15,50 +15,59 @@ const Signup = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(null); // Clear error on change
   };
 
-  const handleSubmit = (e) => {
+  const validateInputs = () => {
+    const { username, contactNo, password, confirmPassword } = formData;
+
+    if (username.trim().length < 3) {
+      return "Username must be at least 3 characters long.";
+    }
+
+    if (!/^\d{10,}$/.test(contactNo)) {
+      return "Contact number must be at least 10 digits and numeric.";
+    }
+
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long.";
+    }
+
+    if (password !== confirmPassword) {
+      return "Passwords do not match.";
+    }
+
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate username (at least 3 characters)
-    if (formData.username.length < 3) {
-      setError("Username must be at least 3 characters long.");
+    const validationError = validateInputs();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    // Validate contact number (only numbers, at least 10 digits)
-    if (!/^\d{10,}$/.test(formData.contactNo)) {
-      setError("Contact number must be at least 10 digits and contain only numbers.");
-      return;
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("✅ Account Created Successfully!");
+        navigate("/login"); // Redirect to login page
+      } else {
+        setError(data.message || "Signup failed. Try again.");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      setError("Something went wrong. Please try again.");
     }
-
-    // Validate password (at least 6 characters)
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-
-    // Validate confirm password matches password
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
-    // If all validations pass
-    setError(null);
-    alert(`✅ Account Created Successfully!\n\nUsername: ${formData.username}\nContact No: ${formData.contactNo}`);
-
-    // Save user data (for demonstration purposes, store in localStorage)
-    const newUser = {
-      username: formData.username,
-      contactNo: formData.contactNo,
-      profilePic: "/images/user.png" // Placeholder image
-    };
-
-    localStorage.setItem("user", JSON.stringify(newUser));
-
-    // Redirect to login page
-    navigate("/login");
   };
 
   return (
@@ -119,12 +128,14 @@ const Signup = () => {
           </Form.Group>
 
           <div className="d-grid">
-            <Button variant="primary" type="submit">Sign Up</Button>
+            <Button variant="primary" type="submit">
+              Sign Up
+            </Button>
           </div>
         </Form>
 
         <div className="text-center mt-3">
-          <span className="text-muted">Already have an account? </span>
+          <span className="text-muted">Already have an Account? </span>
           <Link to="/login" className="text-primary">Login</Link>
         </div>
       </div>
