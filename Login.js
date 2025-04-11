@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(null);
   };
 
   const validateForm = () => {
@@ -26,55 +29,31 @@ const Login = ({ setUser }) => {
     return true;
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) return;
-
-  //   const loggedInUser = {
-  //     name: formData.username,
-  //     profilePic: "/images/user.png",
-  //   };
-
-  //   localStorage.setItem("user", JSON.stringify(loggedInUser));
-  //   setUser(loggedInUser);
-  //   navigate("/");
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!validateForm()) return;
-  
+
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        alert(`❌ ${data.message}`);
-        return;
-      }
-  
-      const loggedInUser = {
-        name: data.username,
-        profilePic: "/images/user.png" // Optional
+      const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+
+      const user = {
+        name: res.data.username,
+        contactNo: res.data.contactNo,
       };
-  
-      localStorage.setItem("user", JSON.stringify(loggedInUser));
-      setUser(loggedInUser);
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
       alert("✅ Login successful!");
-      navigate("/");
+      navigate("/dashboard"); // or navigate("/") if home is your dashboard
     } catch (err) {
-      alert("❌ Server error. Please try again later.");
+      console.error("Login error:", err);
+      if (err.response && err.response.data && err.response.data.message) {
+        alert(`❌ ${err.response.data.message}`);
+      } else {
+        alert("❌ Server error. Please try again later.");
+      }
     }
-  };  
+  };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
